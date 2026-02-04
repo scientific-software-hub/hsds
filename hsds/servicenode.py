@@ -21,6 +21,8 @@ from .util.lruCache import LruCache
 from .util.httpUtil import isUnixDomainUrl, bindToSocket, getPortFromUrl
 from .util.httpUtil import release_http_client, jsonResponse
 
+from elasticapm.contrib.aiohttp import ElasticAPM
+
 from . import config
 from .basenode import healthCheck, baseInit
 from . import hsds_logger as log
@@ -42,6 +44,8 @@ from .chunk_sn import PUT_Value, GET_Value, POST_Value
 async def init():
     """Intitialize application and return app object"""
     app = baseInit("sn")
+
+    apm = ElasticAPM(app)
 
     # call app.router.add_get() here to add node-specific routes
     #

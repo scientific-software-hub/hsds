@@ -17,6 +17,8 @@ import asyncio
 import traceback
 from aiohttp.web import run_app
 
+from elasticapm.contrib.aiohttp import ElasticAPM
+
 from . import config
 from .util.lruCache import LruCache
 from .util.idUtil import isValidUuid, isSchema2Id, getCollectionForId
@@ -46,6 +48,8 @@ from aiohttp.web_exceptions import HTTPForbidden, HTTPBadRequest
 async def init():
     """Intitialize application and return app object"""
     app = baseInit("dn")
+
+    apm = ElasticAPM(app)
 
     #
     # call app.router.add_get() here to add node-specific routes
